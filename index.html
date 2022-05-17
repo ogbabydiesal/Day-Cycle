@@ -1,33 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>edge of the timeline</title>
+    <title>day cycle</title>
     <meta charset = "utf-8"</meta>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta property="og:title" content="ede of the timeline" />
-    <meta property="og:type" content="website" />
+    <meta property="og:title" content="day cycle"/>
+    <meta property="og:type" content="website"/>
     <meta property="author" content="Tommy"/>
     <meta property="description" content="generative web music by tommy martinez"/>
     <script src="js/Tone.js"></script>
     <script src="js/timeline.js"></script>
     <link rel="stylesheet" type="text/css" href="drip.css">
   </head>
-
   <body>
-
-      <button class="button" onclick="init()">loading...</button>
-      <div class="MarqueeContainer">
-          <div class="MarqueeAnimation">
-              <ul class="Marquee">
-                <li class="Marquee-list-item">
-                    <strong>music and code by</strong> Tommy 
-                </li>
-              </ul>
-
-          </div>
+    <div class="daycycle">
+      <p> loading... </p>
+    </div>
+      <div class="main">
+        <div class="poster"><img src="oxalis.png"></div>
+        <button class="button" onclick="init()">loading...</button>
+        <canvas class="player" width=290 height=26></canvas>
       </div>
-
+      <div class="description">
+        <p>Day Cycle (2022)</p>
+        <p>generative improvisation by Tommy</p>
+      </div>
   </body>
-
 </html>
