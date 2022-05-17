@@ -1,7 +1,8 @@
 //time of day
 let today = new Date();
 let time = today.getHours()
-
+let cycleSeed = 0;
+let cycle = 0;
 //initiate some things
 var isPlaying = false;
 let flag = false;
@@ -10,7 +11,7 @@ let ranSample = 0;
 let counter = 0;
 let playHead = 0;
 
-const vol = new Tone.Volume(-28).toDestination();
+const vol = new Tone.Volume(-20).toDestination();
 
 const reverb = new Tone.Reverb({decay: 6, wet: .7}).connect(vol);
 const fDel = new Tone.FeedbackDelay(".143", 0.6).connect(reverb);
@@ -22,6 +23,7 @@ player3 = new Tone.Player().connect(fDel);
 
 
 const silentPlayer = new Tone.Player("./sounds/silence.wav");
+
 
 const samples = new Tone.ToneAudioBuffers({
   0 : "sounds/env/1.m4a",
@@ -117,14 +119,17 @@ const samples = new Tone.ToneAudioBuffers({
   //8pm until midnight
   if (time < 24 && time > 19) {
     document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">evening</p>';
+    cycleSeed = 2;
   }
   //11am until 7pm
   if (time < 11 && time <= 19) {
     document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">afternoon</p>';
+    cycleSeed = 1;
   }
   //
   if (time <= 11) {
     document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">morning</p>';
+    cycleSeed = 0;
   }
 
 });
@@ -146,31 +151,62 @@ function increment(evt) {
   ctx.fillStyle = "black";
 
   if(isPlaying) {
-    counter = counter + .0029;
+    counter = counter + .14;
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillRect(counter, 0, 1, 28)
-    console.log(counter);
-  if (counter > 250 && counter % 2 == 0) {
+
+  if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 0) {
     if (Math.random() > .9) {
-      try{player.buffer = samples.get(getRandomInt(93));
-      player2.buffer = samples.get(getRandomInt(93));
-      player3.buffer = samples.get(getRandomInt(93));
-      player.start();
-      player2.start();
-      player3.start();}
+      try{player.buffer = samples.get(getRandomInt(25));
+        player.start();
+      if (Math.random() > .85) {
+        try{player2.buffer = samples.get(getRandomInt(25));
+            player2.start();
+        }
+        catch(error){}
+      }
+
+      //player3.buffer = samples.get(getRandomInt(25));
+
+    }
+      //player3.start();}
       catch(error){}
     }
   }
-  if (counter > 15) {
-    if (Math.random() > .75) {
-      console.log(Math.random());
+  if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 1) {
+    if (Math.random() > .9) {
+      //console.log(Math.random());
       try{
-        player.buffer = samples.get(getRandomInt(25));
-        player2.buffer = samples.get(getRandomInt(25));
-        player3.buffer = samples.get(getRandomInt(25));
+        player.buffer = samples.get(getRandomInt(34) + 25);
+        player.start();
+        if(Math.random() > .85) {
+          try{player2.buffer = samples.get(getRandomInt(34) + 25);
+          player2.start();}
+          catch(error){}
+        }
+
+        //player3.buffer = samples.get(getRandomInt(34) + 25);
+
+
+        //player3.start();
+      }
+      catch(error){}
+    }
+  }
+  if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 2) {
+    if (Math.random() > .8) {
+      //console.log(Math.random());
+      try{
+        player.buffer = samples.get(getRandomInt(25)+59);
+        if (Math.random() > .85) {
+          try {player2.buffer = samples.get(getRandomInt(25)+59);}
+          catch(error){}
+        }
+
+        //player3.buffer = samples.get(getRandomInt(25)+59);
         player.start();
         player2.start();
-        player3.start();
+        //player3.start();
       }
       catch(error){}
     }
@@ -180,6 +216,19 @@ function increment(evt) {
     document.querySelector(".button").innerHTML = "play";
     isPlaying = false;
   }
+  if (Math.floor(counter) < 290) {
+    cycle = (cycleSeed + 2) % 3;
+
+  }
+  if (Math.floor(counter) < 180) {
+    cycle = (cycleSeed + 1) % 3;
+
+  }
+  if (Math.floor(counter) < 90) {
+    cycle = (cycleSeed + 0) % 3;
+
+  }
+  console.log(cycle);
 }
   setTimeout(increment, 100);
 }
@@ -189,7 +238,6 @@ function init() {
     if (counter >= 290) {
       counter = 0;
     }
-
     isPlaying = true;
     document.querySelector(".button").innerHTML = "pause";
     Tone.Transport.start();
