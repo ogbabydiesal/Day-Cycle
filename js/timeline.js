@@ -21,9 +21,7 @@ player = new Tone.Player().connect(fDel);
 player2 = new Tone.Player().connect(fDel);
 player3 = new Tone.Player().connect(fDel);
 
-
-const silentPlayer = new Tone.Player("./sounds/silence.wav");
-
+const silentPlayer = new Tone.Player("./sounds/silence.m4a");
 
 const samples = new Tone.ToneAudioBuffers({
   0 : "sounds/env/1.m4a",
@@ -240,6 +238,7 @@ function init() {
     }
     isPlaying = true;
     document.querySelector(".button").innerHTML = "pause";
+    Tone.start();
     Tone.Transport.start();
     const timer = setTimeout(increment, 100);
     mainPlayer.buffer = samples.get("0");
