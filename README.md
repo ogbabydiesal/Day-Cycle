@@ -2,7 +2,7 @@
  browser based sound piece
 
 <p align="center">
-  <img src="https://github.com/tmartinez88/day-cycle/blob/main/assets/screenshot.png?raw=true" width="300" title="Website">
+  <img src="https://github.com/tmartinez88/day-cycle/blob/main/assets/screenshot.png?raw=true" width="600" title="Website">
 </p>
 
 # Description
