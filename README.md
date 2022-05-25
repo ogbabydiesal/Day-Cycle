@@ -1,4 +1,4 @@
-# day cycle
+## Day Cycle
  browser based sound piece
 
 <p align="center">
