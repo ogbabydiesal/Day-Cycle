@@ -114,13 +114,14 @@ const samples = new Tone.ToneAudioBuffers({
   silentPlayer.connect(reverb);
   silentPlayer.loop = true;
   silentPlayer.start();
+  document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">afternoon</p>';
   //8pm until midnight
   if (time < 24 && time > 19) {
     document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">evening</p>';
     cycleSeed = 2;
   }
   //11am until 7pm
-  if (time < 11 && time <= 19) {
+  if (time > 11 && time <= 19) {
     document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">afternoon</p>';
     cycleSeed = 1;
   }
@@ -135,17 +136,26 @@ const samples = new Tone.ToneAudioBuffers({
 function getRandomInt(max) {
   return Math.floor(Math.random() * max) + 1;
 }
-let x = 0;
 
+let x = 0;
+let isDrawing = false;
 function increment(evt) {
   let canvas = document.querySelector("canvas");
   let ctx = canvas.getContext("2d");
   canvas.addEventListener('mousedown', e => {
   x = e.offsetX;
   counter = x;
-  y = e.offsetY;
   isDrawing = true;
   });
+  canvas.addEventListener('mousemove', e => {
+  if (isDrawing === true) {
+    x = e.offsetX;
+    counter = x;
+  }
+  canvas.addEventListener('mouseup', e => {
+  isDrawing = false;
+  });
+});
   ctx.fillStyle = "black";
 
   if(isPlaying) {
