@@ -32,7 +32,10 @@ html, body{
   margin-left: 10px;
   bottom:10px;
 }
-
+canvas {
+  width: 290px;
+  height: 28px;
+}
 img {
   border-radius: 15px;
   width:380px;
@@ -81,4 +84,53 @@ p {
   text-align: center;
   position:relative;
   top: 19vh;
+}
+
+
+@media only screen and (max-width: 800px) {
+  canvas {
+    width: 190px;
+    height: 28px;
+  }
+  .daycycle {
+    text-shadow: 1px 1px 1px grey;
+    margin: auto;
+    width: 300px;
+    text-align: center;
+    position:relative;
+    top: 19vh;
+  }
+  .poster {
+    position:absolute;
+    width:220;
+    height:220;
+    margin:10px;
+  }
+  img {
+    border-radius: 15px;
+    width:280px;
+    height:280px;
+    object-fit: cover;
+    box-shadow: 3px 3px 3px black;
+  }
+  .main {
+    margin: auto;
+    margin-top: 20vh;
+    width: 300px;
+    height: 340px;
+    border-style: solid;
+    border-width: thin;
+    border-color:black;
+    position:relative;
+    border-radius:15px;
+    box-shadow: 10px 5px 5px black;
+    margin-bottom: 15px;
+  }
+  .description {
+    margin: auto;
+    width: 300px;
+    text-align: right;
+    position:relative;
+  }
+  
 }

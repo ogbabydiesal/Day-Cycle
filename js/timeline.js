@@ -19,8 +19,6 @@ const fDel = new Tone.FeedbackDelay(".143", 0.6).connect(reverb);
 mainPlayer = new Tone.Player().toDestination();
 player = new Tone.Player().connect(fDel);
 player2 = new Tone.Player().connect(fDel);
-player3 = new Tone.Player().connect(fDel);
-
 const silentPlayer = new Tone.Player("./sounds/silence.m4a");
 
 const samples = new Tone.ToneAudioBuffers({
@@ -143,101 +141,93 @@ function increment(evt) {
   let canvas = document.querySelector("canvas");
   let ctx = canvas.getContext("2d");
   canvas.addEventListener('mousedown', e => {
-  x = e.offsetX;
-  counter = x;
-  isDrawing = true;
-  });
-  canvas.addEventListener('mousemove', e => {
-  if (isDrawing === true) {
     x = e.offsetX;
     counter = x;
-  }
-  canvas.addEventListener('mouseup', e => {
-  isDrawing = false;
+    isDrawing = true;
   });
-});
+  canvas.addEventListener('mousemove', e => {
+    if (isDrawing === true) {
+      x = e.offsetX;
+      counter = x;
+    }
+    canvas.addEventListener('mouseup', e => {
+      isDrawing = false;
+    });
+  });
   ctx.fillStyle = "black";
-
   if(isPlaying) {
     counter = counter + .14;
+    if (window.innerWidth > 600) {
+      canvas.width = 290;
+      canvas.height = 28;
+    }
+    else {
+      canvas.width = 100;
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.fillRect(counter, 0, 1, 28)
-
-  if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 0) {
-    if (Math.random() > .9) {
-      try{player.buffer = samples.get(getRandomInt(25));
-        player.start();
-      if (Math.random() > .85) {
-        try{player2.buffer = samples.get(getRandomInt(25));
-            player2.start();
+    ctx.fillRect(counter, 0, 1, canvas.height)
+    if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 0) {
+      if (Math.random() > .9) {
+        try{player.buffer = samples.get(getRandomInt(25));
+          player.start();
+        if (Math.random() > .85) {
+          try{player2.buffer = samples.get(getRandomInt(25));
+              player2.start();
+          }
+          catch(error){}
+        }
+      }
+        catch(error){}
+      }
+    }
+    if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 1) {
+      if (Math.random() > .9) {
+        try{
+          player.buffer = samples.get(getRandomInt(34) + 25);
+          player.start();
+          if(Math.random() > .85) {
+            try {
+              player2.buffer = samples.get(getRandomInt(34) + 25);
+              player2.start(); 
+            }
+            catch(error){}
+          }
         }
         catch(error){}
       }
-
-      //player3.buffer = samples.get(getRandomInt(25));
-
     }
-      //player3.start();}
-      catch(error){}
-    }
-  }
-  if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 1) {
-    if (Math.random() > .9) {
-      //console.log(Math.random());
-      try{
-        player.buffer = samples.get(getRandomInt(34) + 25);
-        player.start();
-        if(Math.random() > .85) {
-          try{player2.buffer = samples.get(getRandomInt(34) + 25);
-          player2.start();}
-          catch(error){}
+    if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 2) {
+      if (Math.random() > .8) {
+        try{
+          player.buffer = samples.get(getRandomInt(25)+59);
+          if (Math.random() > .85) {
+            try {player2.buffer = samples.get(getRandomInt(25)+59);}
+            catch(error){}
+          }
+          player.start();
+          player2.start();
         }
-
-        //player3.buffer = samples.get(getRandomInt(34) + 25);
-
-
-        //player3.start();
+        catch(error){}
       }
-      catch(error){}
     }
-  }
-  if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 2) {
-    if (Math.random() > .8) {
-      //console.log(Math.random());
-      try{
-        player.buffer = samples.get(getRandomInt(25)+59);
-        if (Math.random() > .85) {
-          try {player2.buffer = samples.get(getRandomInt(25)+59);}
-          catch(error){}
-        }
-
-        //player3.buffer = samples.get(getRandomInt(25)+59);
-        player.start();
-        player2.start();
-        //player3.start();
-      }
-      catch(error){}
+    if (counter >= 290) {
+      Tone.Transport.stop();
+      document.querySelector(".button").innerHTML = "play";
+      isPlaying = false;
     }
-  }
-  if (counter >= 290) {
-    Tone.Transport.stop();
-    document.querySelector(".button").innerHTML = "play";
-    isPlaying = false;
-  }
-  if (Math.floor(counter) < 290) {
-    cycle = (cycleSeed + 2) % 3;
+    if (Math.floor(counter) < 290) {
+      cycle = (cycleSeed + 2) % 3;
 
-  }
-  if (Math.floor(counter) < 180) {
-    cycle = (cycleSeed + 1) % 3;
+    }
+    if (Math.floor(counter) < 180) {
+      cycle = (cycleSeed + 1) % 3;
 
+    }
+    if (Math.floor(counter) < 90) {
+      cycle = (cycleSeed + 0) % 3;
+    }
+    console.log(cycle);
   }
-  if (Math.floor(counter) < 90) {
-    cycle = (cycleSeed + 0) % 3;
-
-  }
-  console.log(cycle);
-}
   setTimeout(increment, 100);
 }
 
@@ -254,7 +244,6 @@ function init() {
     mainPlayer.buffer = samples.get("0");
     player.buffer = samples.get("2");
     player2.buffer = samples.get("5");
-    player3.buffer = samples.get("1");
     mainPlayer.loop = true;
     mainPlayer.sync().start(0);
   }
@@ -263,5 +252,4 @@ function init() {
     document.querySelector(".button").innerHTML = "play";
     isPlaying = false;
   }
-
 }
