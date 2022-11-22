@@ -112,15 +112,15 @@ const samples = new Tone.ToneAudioBuffers({
   silentPlayer.connect(reverb);
   silentPlayer.loop = true;
   silentPlayer.start();
-  document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">afternoon</p>';
+  document.querySelector('.daycycle').innerHTML = '<p>afternoon</p>';
   //8pm until midnight
   if (time < 24 && time > 19) {
-    document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">evening</p>';
+    document.querySelector('.daycycle').innerHTML = '<p>evening</p>';
     cycleSeed = 2;
   }
   //11am until 7pm
   if (time > 11 && time <= 19) {
-    document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">afternoon</p>';
+    document.querySelector('.daycycle').innerHTML = '<p>afternoon</p>';
     cycleSeed = 1;
   }
   //

@@ -65,8 +65,8 @@ p {
   color:black;
   line-height: normal;
   font-family:times;
-  font-weight:lighter;
-  font-size: 14px;
+  
+  font-size: 15px;
   margin:0px;
 }
 
@@ -84,6 +84,7 @@ p {
   text-align: center;
   position:relative;
   top: 19vh;
+  font-style:italic;
 }
 
 
