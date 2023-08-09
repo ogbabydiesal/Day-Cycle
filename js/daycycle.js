@@ -13,12 +13,22 @@ let playHead = 0;
 
 const vol = new Tone.Volume(-20).toDestination();
 
-const reverb = new Tone.Reverb({decay: 6, wet: .7}).connect(vol);
+const reverb = new Tone.Reverb({decay: 2, wet: .4}).connect(vol);
 const fDel = new Tone.FeedbackDelay(".143", 0.6).connect(reverb);
 
 mainPlayer = new Tone.Player().toDestination();
-player = new Tone.Player().connect(fDel);
-player2 = new Tone.Player().connect(fDel);
+let voiceCount = 12;
+let polyCounter = 0;
+let players = [];
+for (let x = 0; x < voiceCount; x++) {
+  players.push(new Tone.Player().connect(fDel));
+}
+
+function polyPlayer(numSamples) {
+  polyCounter = (polyCounter + 1) % voiceCount;
+  players[polyCounter].buffer = samples.get(getRandomInt(numSamples));
+  players[polyCounter].start();
+}
 const silentPlayer = new Tone.Player("./sounds/silence.m4a");
 
 const samples = new Tone.ToneAudioBuffers({
@@ -125,7 +135,7 @@ const samples = new Tone.ToneAudioBuffers({
   }
   //
   if (time <= 11) {
-    document.querySelector('.daycycle').innerHTML = '<p style="font-family:cursive;font-size:15px;">morning</p>';
+    document.querySelector('.daycycle').innerHTML = '<p>morning</p>';
     cycleSeed = 0;
   }
 
@@ -168,11 +178,11 @@ function increment(evt) {
     ctx.fillRect(counter, 0, 1, canvas.height)
     if (counter > 25 && Math.floor(counter) % 1 == 0 && cycle == 0) {
       if (Math.random() > .9) {
-        try{player.buffer = samples.get(getRandomInt(25));
-          player.start();
+        try {
+            polyPlayer(25)
         if (Math.random() > .85) {
-          try{player2.buffer = samples.get(getRandomInt(25));
-              player2.start();
+          try{
+            polyPlayer(25)
           }
           catch(error){}
         }
@@ -226,7 +236,7 @@ function increment(evt) {
     if (Math.floor(counter) < 90) {
       cycle = (cycleSeed + 0) % 3;
     }
-    console.log(cycle);
+    
   }
   setTimeout(increment, 100);
 }
@@ -242,8 +252,7 @@ function init() {
     Tone.Transport.start();
     const timer = setTimeout(increment, 100);
     mainPlayer.buffer = samples.get("0");
-    player.buffer = samples.get("2");
-    player2.buffer = samples.get("5");
+    
     mainPlayer.loop = true;
     mainPlayer.sync().start(0);
   }
